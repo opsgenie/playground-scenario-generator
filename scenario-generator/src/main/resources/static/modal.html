@@ -1,0 +1,49 @@
+<div class="modal-start-scenario">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Start a new scenario for {{ $mdl.agent.name }}</h3>
+    </div>
+    <div class="modal-body every-part" id="modal-body">
+        <div uib-alert ng-if="$mdl.error" class="alert-danger">
+            <p><b>Status:</b> {{$mdl.error.status}}</p>
+            <p><b>Message:</b> {{$mdl.error.message}}</p>
+        </div>
+        <div>
+            <select class="form-control"
+                    ng-change="$mdl.scenarioStartForm.valid = true"
+                    ng-model="$mdl.agent.selectedScenario"
+                    ng-options="scenario.name for scenario in $mdl.agent.scenarios">
+                <option value="" disabled>Select a scenario</option>
+            </select>
+        </div>
+        <div class="" ng-if="$mdl.agent.selectedScenario">
+            <b class="label-text">Description</b>
+            <div>{{$mdl.agent.selectedScenario.description}}</div>
+            <div>
+                <b class="label-text">Select time in seconds
+                    <span>Allowed time range is <b>{{$mdl.agent.selectedScenario.minTime}}</b> to <b>{{$mdl.agent.selectedScenario.maxTime}}</b></span>
+                </b>
+                <div class="with-counter">
+                    <input class="form-control range-input" name="requestedSeconds" required
+                           type="number"
+                           ng-model="$mdl.agent.selectedScenario.requestedSeconds"
+                           ng-change="$mdl.validateRequestedSeconds($mdl.agent.selectedScenario)"
+                           min="{{$mdl.agent.selectedScenario.minTime}}"
+                           max="{{$mdl.agent.selectedScenario.maxTime}}">
+                    <div class="inline-alert alert alert-{{$mdl.scenarioStartForm.state}}"
+                         role="alert">
+                        <b>{{$mdl.scenarioStartForm.message}}</b>
+                        <i class="reg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" type="button" ng-click="$mdl.cancel()">Cancel</button>
+        <button class="btn btn-primary" type="button"
+                ng-disabled="!$mdl.scenarioStartForm.valid"
+                ng-click="$mdl.ok($mdl.agent, $mdl.agent.selectedScenario)">
+            Start
+        </button>
+    </div>
+</div>
