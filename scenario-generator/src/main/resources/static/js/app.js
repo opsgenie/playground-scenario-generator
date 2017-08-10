@@ -78,6 +78,11 @@ angular.module('scenarioGenerator').controller('scenarioCtrl', function ($scope,
 
     init();
 
+    // TODO: a hack to fix the progress bar after tab is changed
+    $(window).focus(function () {
+        init();
+    });
+
     $ctrl.openStartScenarioModal = function (selectedAgent, parentSelector) {
         var modalInstance = $uibModal.open({
             animation: true,
