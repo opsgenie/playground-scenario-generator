@@ -2,6 +2,8 @@ package com.opsgenie.playground.scenarioGenerator.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Objects;
+
 /**
  * This class might be abstract later but it is used directly by scenario generator as a class. If
  * we want to do something specific for apps later, we can make this abstract again, then agent
@@ -12,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Scenario {
+
+    protected String id;
 
     protected String name;
 
@@ -26,21 +30,32 @@ public class Scenario {
     public Scenario() {
     }
 
-    public Scenario(String name) {
-        this.name = name;
+    public Scenario(String id) {
+        this.id = id;
     }
 
-    public Scenario(String name, String description) {
+    public Scenario(String id, String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public Scenario(String name, String description, boolean enabled, int minTime, int maxTime) {
+    public Scenario(String id, String name, String description, boolean enabled, int minTime, int maxTime) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.enabled = enabled;
         this.minTime = minTime;
         this.maxTime = maxTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Scenario setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public String getName() {
@@ -87,24 +102,18 @@ public class Scenario {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Scenario scenario = (Scenario) o;
-
-        if (enabled != scenario.enabled) return false;
-        if (minTime != scenario.minTime) return false;
-        if (maxTime != scenario.maxTime) return false;
-        if (name != null ? !name.equals(scenario.name) : scenario.name != null) return false;
-        return description != null ? description.equals(scenario.description) : scenario.description == null;
+        return enabled == scenario.enabled &&
+                minTime == scenario.minTime &&
+                maxTime == scenario.maxTime &&
+                Objects.equals(id, scenario.id) &&
+                Objects.equals(name, scenario.name) &&
+                Objects.equals(description, scenario.description);
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (enabled ? 1 : 0);
-        result = 31 * result + minTime;
-        result = 31 * result + maxTime;
-        return result;
+        return Objects.hash(id, name, description, enabled, minTime, maxTime);
     }
 
     @Override

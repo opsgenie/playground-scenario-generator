@@ -35,14 +35,14 @@ public class ScenarioRestController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{scenario}/enable", method = {RequestMethod.POST, RequestMethod.PUT})
-    public boolean enableScenario(@NotBlank @PathVariable("scenario") String scenarioName) throws Exception {
-        return scenarioService.enable(scenarioName);
+    public boolean enableScenario(@NotBlank @PathVariable("scenario") String scenarioId) throws Exception {
+        return scenarioService.enable(scenarioId);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{scenario}/disable", method = {RequestMethod.POST, RequestMethod.PUT})
-    public boolean disableScenario(@NotBlank @PathVariable("scenario") String scenarioName) throws Exception {
-        return scenarioService.disable(scenarioName);
+    public boolean disableScenario(@NotBlank @PathVariable("scenario") String scenarioId) throws Exception {
+        return scenarioService.disable(scenarioId);
     }
 
 }

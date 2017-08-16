@@ -50,8 +50,8 @@ public class ScenarioServiceTest {
 
     public ScenarioServiceTest() {
         this.agent = new Agent(EASY_TRAVEL, "http://a.com", "Travel fast and easy");
-        this.scenario1 = new Scenario("sce1", "senaryo 1", true, 30, 50);
-        this.scenario2 = new Scenario("sce2", "senaryo 2");
+        this.scenario1 = new Scenario("sce1","sce1", "senaryo 1", true, 30, 50);
+        this.scenario2 = new Scenario("sce2","sce2", "senaryo 2");
     }
 
     @Before

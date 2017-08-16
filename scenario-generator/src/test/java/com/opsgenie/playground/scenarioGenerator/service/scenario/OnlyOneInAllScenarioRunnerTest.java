@@ -44,11 +44,11 @@ public class OnlyOneInAllScenarioRunnerTest {
 
     public OnlyOneInAllScenarioRunnerTest() {
         agents.add(new Agent(EASY_TRAVEL, "http://easytravel.com"));
-        agents.add(new Agent(BADGES, "https://badges.com"));
+        agents.add(new Agent(BADGES, "httzps://badges.com"));
 
-        etScenario1 = new Scenario("scenario1", "scenario1 desc", false, 5, 80);
-        etScenario2 = new Scenario("scenario2", "scenario2 desc", false, 10, 180);
-        etScenario3 = new Scenario("scenario3", "scenario3 desc", false, 0, 50);
+        etScenario1 = new Scenario("scenario1","scenario1", "scenario1 desc", false, 5, 80);
+        etScenario2 = new Scenario("scenario2","scenario2", "scenario2 desc", false, 10, 180);
+        etScenario3 = new Scenario("scenario3","scenario3", "scenario3 desc", false, 0, 50);
     }
 
     @Before
