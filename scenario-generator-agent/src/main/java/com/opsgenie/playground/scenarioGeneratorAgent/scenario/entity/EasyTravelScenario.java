@@ -12,8 +12,8 @@ public class EasyTravelScenario extends Scenario {
 
     private String group;
 
-    public EasyTravelScenario(String name, String area, String group, String description) {
-        super(name, description);
+    public EasyTravelScenario(String id, String area, String group) {
+        super(id);
         this.area = area;
         this.group = group;
     }

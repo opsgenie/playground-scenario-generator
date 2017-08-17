@@ -159,7 +159,7 @@ angular.module('scenarioGenerator').controller('StartScenarioModalCtrl', functio
     $mdl.ok = function (agent, selectedScenario) {
         if (!$mdl.scenarioStartForm.valid) return;
 
-        scenarioService.startScenario(agent.name, selectedScenario.name, selectedScenario.requestedSeconds)
+        scenarioService.startScenario(agent.name, selectedScenario.id, selectedScenario.requestedSeconds)
             .then(function success(response) {
                 $log.debug("Scenario starting...", response.data);
                 $uibModalInstance.close(agent);

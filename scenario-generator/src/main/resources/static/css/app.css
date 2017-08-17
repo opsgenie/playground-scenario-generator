@@ -132,7 +132,8 @@ button.btn-primary:active {
 .sc-state {
     width: 100%;
     max-width: 500px;
-    height: 100px;
+    height: auto;
+    min-height: 100px;
     border: 1px solid #dedede;
     background-color: #f9f9f9;
     border-radius: 4px;
@@ -149,6 +150,9 @@ button.btn-primary:active {
 
 .sc-state .scenario-result {
     padding: 10px;
+}
+.sc-state .scenario-result .progress{
+    margin-bottom: 0;
 }
 
 .sc-state .sep-div {
