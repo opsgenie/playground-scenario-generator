@@ -49,12 +49,12 @@ public class ScenarioRestController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/scenarios/{scenarioName}/start", method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(value = "/scenarios/{scenarioId}/start", method = {RequestMethod.POST, RequestMethod.PUT})
     public ScenarioStatus startScenario(@NotBlank @PathVariable("agentName") String agentName,
-                                        @NotBlank @PathVariable("scenarioName") String scenarioName,
+                                        @NotBlank @PathVariable("scenarioId") String scenarioId,
                                         @RequestBody StartScenarioRequest request) throws Exception {
 
-        return scenarioRunner.start(agentName, scenarioName, request.getRequestedTime());
+        return scenarioRunner.start(agentName, scenarioId, request.getRequestedTime());
     }
 
 }

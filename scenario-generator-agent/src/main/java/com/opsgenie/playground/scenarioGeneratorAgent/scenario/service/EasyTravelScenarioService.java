@@ -57,7 +57,7 @@ public class EasyTravelScenarioService implements ScenarioService<EasyTravelScen
         this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
         this.apiUrl = conf.getApiUrl();
-        this.availableScenarioConfigsMap = conf.getAvailableScenarios().stream().collect(Collectors.toMap(ScenarioConfigProperty::getName, sc -> sc));
+        this.availableScenarioConfigsMap = conf.getAvailableScenarios().stream().collect(Collectors.toMap(ScenarioConfigProperty::getId, sc -> sc));
         this.availableScenarioNames = conf.getAvailableScenarioNames();
     }
 
@@ -84,11 +84,12 @@ public class EasyTravelScenarioService implements ScenarioService<EasyTravelScen
         final List<EasyTravelScenario> availableScenarios = new ArrayList<>();
 
         for (EasyTravelScenario scenario : scenarios) {
-            if (availableScenarioConfigsMap.containsKey(scenario.getName())) {
-                final ScenarioConfigProperty scenarioConfigProperty = availableScenarioConfigsMap.get(scenario.getName());
+            if (availableScenarioConfigsMap.containsKey(scenario.getId())) {
+                final ScenarioConfigProperty scenarioConfigProperty = availableScenarioConfigsMap.get(scenario.getId());
                 scenario.setMaxTime(scenarioConfigProperty.getMaxTime());
                 scenario.setMinTime(scenarioConfigProperty.getMinTime());
-
+                scenario.setDescription(scenarioConfigProperty.getDescription());
+                scenario.setName(scenarioConfigProperty.getName());
                 availableScenarios.add(scenario);
             }
         }
@@ -103,7 +104,7 @@ public class EasyTravelScenarioService implements ScenarioService<EasyTravelScen
         for (int i = 0; i < nodes.getLength(); i++) {
             String nodeValue = nodes.item(i).getNodeValue();
             String[] values = nodeValue.split(":");// expected to return 4 value - no need to check
-            scenarios.add(new EasyTravelScenario(values[0], values[1], values[2], values.length > 3 ? values[3] : ""));
+            scenarios.add(new EasyTravelScenario(values[0], values[1], values[2]));
         }
         return scenarios;
     }
@@ -129,21 +130,21 @@ public class EasyTravelScenarioService implements ScenarioService<EasyTravelScen
     }
 
     @Override
-    public boolean enable(String scenarioName) throws Exception {
-        return setScenarioEnabled(scenarioName, true);
+    public boolean enable(String scenarioId) throws Exception {
+        return setScenarioEnabled(scenarioId, true);
     }
 
     @Override
-    public boolean disable(String scenarioName) throws Exception {
-        return setScenarioEnabled(scenarioName, false);
+    public boolean disable(String scenarioId) throws Exception {
+        return setScenarioEnabled(scenarioId, false);
     }
 
-    private boolean setScenarioEnabled(String scenarioName, boolean enabled) throws Exception {
+    private boolean setScenarioEnabled(String scenarioId, boolean enabled) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl + CONFIGURATION_SERVICE + "/setPluginEnabled")
-                .queryParam("name", scenarioName)
+                .queryParam("name", scenarioId)
                 .queryParam("enabled", enabled);
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -165,7 +166,7 @@ public class EasyTravelScenarioService implements ScenarioService<EasyTravelScen
         final List<EasyTravelScenario> allScenarios = getAllScenarios();
 
         for (EasyTravelScenario scenario : allScenarios) {
-            disable(scenario.getName());
+            disable(scenario.getId());
         }
     }
 }

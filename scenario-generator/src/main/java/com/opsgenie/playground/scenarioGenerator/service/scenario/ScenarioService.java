@@ -50,24 +50,24 @@ public class ScenarioService {
      * This service gets all scenarios and filters it. This should change later and agents should
      * have an endpoint that provides specific scenario details
      */
-    public Scenario getScenario(String agentName, String scenarioName) throws IOException, ScenarioDoesNotExist {
+    public Scenario getScenario(String agentName, String scenarioId) throws IOException, ScenarioDoesNotExist {
         final List<Scenario> scenarios = getScenarios(agentName);
-        final Optional<Scenario> scenarioOptional = scenarios.stream().filter(sc -> sc.getName().equalsIgnoreCase(scenarioName)).findFirst();
+        final Optional<Scenario> scenarioOptional = scenarios.stream().filter(sc -> sc.getId().equalsIgnoreCase(scenarioId)).findFirst();
         if (!scenarioOptional.isPresent()) {
-            throw new ScenarioDoesNotExist("Scenario '" + scenarioName + "' does not exist.");
+            throw new ScenarioDoesNotExist("Scenario '" + scenarioId + "' does not exist.");
         }
 
         return scenarioOptional.get();
     }
 
-    public void enableScenario(String agentName, String scenarioName) {
-        log.info("Enabling scenario '" + scenarioName + "' for '" + agentName + "' agent.");
-        restTemplate.postForLocation(getAgentUrlFromName(agentName) + "/scenarios/" + scenarioName + "/enable", String.class);
+    public void enableScenario(String agentName, String scenarioId) {
+        log.info("Enabling scenario '" + scenarioId + "' for '" + agentName + "' agent.");
+        restTemplate.postForLocation(getAgentUrlFromName(agentName) + "/scenarios/" + scenarioId + "/enable", String.class);
     }
 
-    public void disableScenario(String agentName, String scenarioName) {
-        log.info("Disabling scenario '" + scenarioName + "' for '" + agentName + "' agent.");
-        restTemplate.postForLocation(getAgentUrlFromName(agentName) + "/scenarios/" + scenarioName + "/disable", String.class);
+    public void disableScenario(String agentName, String scenarioId) {
+        log.info("Disabling scenario '" + scenarioId + "' for '" + agentName + "' agent.");
+        restTemplate.postForLocation(getAgentUrlFromName(agentName) + "/scenarios/" + scenarioId + "/disable", String.class);
     }
 
     @EventListener(ContextRefreshedEvent.class)

@@ -54,7 +54,7 @@ public class OnlyOneInAllScenarioRunner implements ScenarioRunner {
             String agentName = entry.getKey();
             ScenarioWrapper scw = entry.getValue();
             if (scw.getRemainingSeconds() <= 0) {
-                scenarioService.disableScenario(agentName, scw.getScenario().getName());
+                scenarioService.disableScenario(agentName, scw.getScenario().getId());
                 runningScenariosMap.remove(agentName);
                 log.info("Scenario '" + scw.getScenario().getName() + "' is finished. " + scw.toString());
             }
@@ -62,15 +62,15 @@ public class OnlyOneInAllScenarioRunner implements ScenarioRunner {
     }
 
     @Override
-    public ScenarioStatus start(String agentName, String scenarioName, int requestedTime) throws ScenarioDoesNotExist, IOException {
-        final Scenario scenario = scenarioService.getScenario(agentName, scenarioName);
+    public ScenarioStatus start(String agentName, String scenarioId, int requestedTime) throws ScenarioDoesNotExist, IOException {
+        final Scenario scenario = scenarioService.getScenario(agentName, scenarioId);
 
         if (runningScenariosMap.containsKey(agentName)) {
             ScenarioWrapper running = runningScenariosMap.get(agentName);
             return ScenarioStatus.createInProgressStatus(running.getScenario() , running.getRemainingSeconds(), running.getRequestedSeconds());
         }
 
-        scenarioService.enableScenario(agentName, scenarioName);
+        scenarioService.enableScenario(agentName, scenarioId);
 
         final int finalRequestedTime = validateAndGetRequestedTime(scenario, requestedTime);
         final long currentTimeInSeconds = getCurrentTimeInSec();
